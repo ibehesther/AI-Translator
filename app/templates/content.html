@@ -1,0 +1,59 @@
+<div class="content">
+	<ul
+		class="nav nav-pills nav-fill gap-2 p-1 small bg-primary rounded-5 shadow-sm"
+		id="myTab"
+		role="tablist"
+		style="
+			--bs-nav-link-color: var(--bs-white);
+			--bs-nav-pills-link-active-color: var(--bs-primary);
+			--bs-nav-pills-link-active-bg: var(--bs-white);
+		"
+	>
+		<li class="nav-item" role="presentation">
+			<button
+				class="nav-link active rounded-5"
+				id="speak-tab"
+				data-bs-toggle="tab"
+				data-bs-target="#speak-tab-pane"
+				type="button"
+				role="tab"
+				aria-selected="true"
+			>
+				Speak
+			</button>
+		</li>
+		<li class="nav-item" role="presentation">
+			<button
+				class="nav-link rounded-5"
+				id="listen-tab"
+				data-bs-toggle="tab"
+				data-bs-target="#listen-tab-pane"
+				type="button"
+				role="tab"
+				aria-selected="false"
+			>
+				Listen
+			</button>
+		</li>
+	</ul>
+	<div class="tab-content" id="pills-tabContent">
+		<div
+			class="tab-pane fade show active p-4"
+			id="speak-tab-pane"
+			role="tabpanel"
+			aria-labelledby="speak-tab"
+			tabindex="0"
+		>
+			{% with action='speak', tab=0 %} {% include "tab-pane.html" %} {% endwith %}
+		</div>
+		<div
+			class="tab-pane fade p-4"
+			id="listen-tab-pane"
+			role="tabpanel"
+			aria-labelledby="listen-tab"
+			tabindex="0"
+		>
+			{% with action='listen', tab=1 %} {% include "tab-pane.html" %} {% endwith %}
+		</div>
+	</div>
+</div>

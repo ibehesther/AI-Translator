@@ -1,0 +1,19 @@
+{% block tab %}
+<div class="tab-panel">
+	<p id="action">
+    {% block action %}
+    
+    <p class='action-text' id='action-text-{{tab}}'>
+      {% if action == 'speak' %}
+      Click <i class="fas fa-microphone"></i> to start recording
+      {% else %}
+      Click <i class="fas fa-play"></i> to start playing 
+     {% endif %}
+    </p>
+    
+    {% endblock %}
+  </p>
+	<div id="{{action}}-message-card" class="p-4 bg-light message-card"></div>
+  {% include 'controls.html' %}
+</div>
+{% endblock %}

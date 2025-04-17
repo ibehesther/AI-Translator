@@ -1,0 +1,46 @@
+<div class="container text-center mt-4 mb-4 languages">
+	<div class="row align-items-center">
+		<div class="col input-lang">
+			<button
+				id="input-lang"
+				class="btn dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				aria-expanded="false"
+			>
+				{{supported_langs[0].code}}
+			</button>
+      <p id="input-lang-label">{{supported_langs[0].label}}</p>
+			<ul class="dropdown-menu lang-code">
+				{% for lang in supported_langs %}
+				<li class="dropdown-item" onclick="handleLangSelect('input', '{{ lang.code }}', '{{lang.label}}')">
+					{{lang.code}}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<div class="col text-center">
+			<i class="fas fa-arrow-right-arrow-left"></i>
+		</div>
+		<div class="col output-lang">
+			<button
+				id="output-lang"
+				class="btn dropdown-toggle"
+				type="button"
+				data-bs-toggle="dropdown"
+				data-bs-auto-close="inside"
+				aria-expanded="false"
+			>
+				{{supported_langs[0].code}}
+			</button>
+      <p id="output-lang-label">{{supported_langs[0].label}}</p>
+			<ul class="dropdown-menu lang-code">
+				{% for lang in supported_langs %}
+				<li class="dropdown-item" onclick="handleLangSelect('output', '{{ lang.code }}', '{{lang.label}}')">
+					{{lang.code}}
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,6 @@
+flask_cors
+
+deepgram-sdk
+elevenlabs
+sounddevice
+python-dotenv

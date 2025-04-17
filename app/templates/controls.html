@@ -1,0 +1,32 @@
+<div class="controls">
+	<div class="controls">
+		{% block action %} {% if action == 'speak' %}
+        <audio controls autoplay class="hide" id="record-audio"></audio>
+        <audio controls autoplay class="hide" id="play-audio"></audio>
+
+		<i
+			id="recordBtn"
+			class="fas fa-microphone controls-icon"
+			onclick="handleRecord()"
+		>
+			
+		</i>
+		<i
+			id="stopBtn"
+			class="fas fa-stop controls-icon hide"
+			onclick="handleStop()"
+		></i>
+		{% else %}
+		<i
+			id="playBtn"
+			class="fas fa-play controls-icon"
+			onclick="handlePlay()"
+		></i>
+		<i
+			id="pauseBtn"
+			class="fas fa-pause controls-icon hide"
+			onclick="handlePause()"
+		></i>
+		{% endif %} {% endblock %}
+	</div>
+</div>
