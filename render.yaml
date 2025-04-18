@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: translator-app  
+    runtime: python 
+    buildCommand: pip install -r app/requirements.txt 
+    startCommand: gunicorn app/__init__.py 
