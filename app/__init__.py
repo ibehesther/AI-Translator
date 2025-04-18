@@ -3,7 +3,7 @@ from urllib import response
 from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 import requests
-from data import supported_langs, supported_output_langs
+from app.data import supported_langs, supported_output_langs
 from dotenv import load_dotenv
 from deepgram import (
     DeepgramClient,
