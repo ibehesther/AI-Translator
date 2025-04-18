@@ -75,6 +75,9 @@ p {
 	min-width: 50%;
 	min-height: 50%;
   text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 .message-card p {
   font-size: 1rem;

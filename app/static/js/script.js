@@ -20,11 +20,7 @@ let audioSrc;
 let audioIN = { audio: false };
 
 let transcript;
-let transcriptTargetLang;
-const input_transcript = {
-	text: "",
-	lang: outputLang.innerText,
-};
+let transcriptTargetLang = outputLang.innerText.toLowerCase();
 
 const getLanguageOption = (lang) => {
 	if (lang == "en") {
@@ -32,7 +28,7 @@ const getLanguageOption = (lang) => {
 	}
 	return "multi";
 };
-const handleLangSelect = (mode, code, label) => {
+const handleLangSelect = (mode, label, code, altCode = "") => {
 	if (mode == "input") {
 		inputLang.innerText = code;
 		inputLangLabel.innerHTML = label;
@@ -40,7 +36,7 @@ const handleLangSelect = (mode, code, label) => {
 		outputLang.innerText = code;
 		outputLangLabel.innerHTML = label;
 
-		transcriptTargetLang = code;
+		transcriptTargetLang = altCode || code;
 	}
 };
 
@@ -49,6 +45,8 @@ const handleRecord = async () => {
 	recordBtn.classList.add("hide");
 	speakActionText.innerHTML =
 		'Click <i class="fas fa-stop"></i> to stop recording';
+
+	speakMssgCard.innerHTML = "";
 
 	micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
@@ -65,6 +63,9 @@ const handleRecord = async () => {
 };
 
 const handleTranscriptFormat = (paragraphs, cardEl) => {
+	if (!paragraphs.length) {
+		return;
+	}
 	cardEl.innerHTML = "";
 	const sectionEl = document.createElement("div");
 	for (let paragraph of paragraphs) {
@@ -103,7 +104,7 @@ const handleStop = async () => {
 			audioSrc = window.URL.createObjectURL(audioData);
 
 			const formData = new FormData();
-			const lang = getLanguageOption(inputLang.innerText);
+			const lang = getLanguageOption(inputLang.innerText.toLowerCase());
 			formData.append("audio", audioData, "recording.wav");
 			formData.append("text", lang);
 
@@ -112,9 +113,8 @@ const handleStop = async () => {
 				body: formData,
 			});
 			const result = await response.json();
-			handleTranscriptFormat(result.content.paragraphs, speakMssgCard);
-			console.log("result: ", result);
-			transcript = result.content.transcript;
+			handleTranscriptFormat(result.content?.paragraphs || [], speakMssgCard);
+			transcript = result.content?.transcript || "";
 		};
 	} catch (e) {
 		console.error("An error occured: ", e);
@@ -125,8 +125,8 @@ const handlePlay = async () => {
 	playBtn.classList.add("hide");
 	pauseBtn.classList.remove("hide");
 	listenActionText.innerHTML = 'Click <i class="fas fa-pause"></i> to pause';
+	listenMssgCard.innerHTML = "";
 
-	// playAudio.src = audioSrc;
 	try {
 		const response = await fetch("/api/translate", {
 			method: "POST",
@@ -135,18 +135,16 @@ const handlePlay = async () => {
 			},
 			body: JSON.stringify({
 				text: transcript,
-				lang: transcriptTargetLang,
+				lang: transcriptTargetLang.trim(),
 			}),
 		});
 
 		const JSONResponse = await response.json();
 
-    console.log('JSONResponse: ', JSONResponse)
 		if (JSONResponse?.error) {
 			throw new Error(JSONResponse.message);
 		}
 
-    speakMssgCard.innerHTML = "";
 		const sectionEl = document.createElement("div");
 		const sentences = JSONResponse.text.split(".");
 		for (let sentence of sentences) {
@@ -155,18 +153,16 @@ const handlePlay = async () => {
 		}
 		listenMssgCard.appendChild(sectionEl);
 
-		// const speechResponse = await fetch("/api/speech", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 	},
-		// 	body: JSON.stringify({
-		// 		// text: transcript,
-		// 		// lang: transcriptTargetLang,
-		// 	}),
-		// });
+		const speechResponse = await fetch("/api/speech", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				text: JSONResponse.text,
+			}),
+		});
 
-		// console.log("response: ", await speechResponse.json());
 	} catch (e) {
 		console.error("An error occured: ", e);
 	}
