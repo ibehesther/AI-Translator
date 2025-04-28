@@ -11,11 +11,11 @@
 				{{supported_langs[0].code}}
 			</button>
 			<p id="input-lang-label">{{supported_langs[0].label}}</p>
-			<ul class="dropdown-menu lang-code">
+			<ul class="dropdown-menu lang-code" >
 				{% for lang in supported_langs %}
 				<li
 					class="dropdown-item"
-					onclick="handleLangSelect('input', '{{lang.label}}', '{{lang.code}}')"
+					onclick="handleLangSelect('input', 0, '{{lang.label}}', '{{lang.code}}')"
 				>
 					{{lang.code}}
 				</li>
@@ -31,28 +31,21 @@
 				class="btn dropdown-toggle"
 				type="button"
 				data-bs-toggle="dropdown"
-				data-bs-auto-close="inside"
+				data-bs-auto-close="true"
 				aria-expanded="false"
 			>
 				{{supported_output_langs[0].code}}
 			</button>
-			<p id="output-lang-label">{{supported_output_langs[0].label}}</p>
+			<p id="output-lang-label">{{supported_output_langs[0].name}}</p>
 			<ul class="dropdown-menu lang-code">
-				{% for lang in supported_output_langs %} {% if lang.alt_code %}
-				<li
-					class="dropdown-item"
-					onclick="handleLangSelect('output', '{{lang.label}}', '{{lang.code}}','{{lang.alt_code}}')"
-				>
-					{{lang.code}}
-				</li>
-				{% else %}
-				<li
-					class="dropdown-item"
-					onclick="handleLangSelect('output', '{{lang.label}}', '{{lang.code}}')"
-				>
-					{{lang.code}}
-				</li>
-				{% endif %} {% endfor %}
+				{% for lang in supported_output_langs %} 
+					<li
+						class="dropdown-item"
+						onclick="handleLangSelect('output', '{{lang.id}}', '{{lang.name}}', '{{lang.code}}')"
+					>
+						{{lang.code}}
+					</li>
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
