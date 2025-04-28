@@ -243,7 +243,6 @@ def synthesize_speech():
 
         tts_result = requests.get(f"https://client.camb.ai/apis/tts-result/{run_id}?output_type=raw_bytes", headers={"x-api-key": CAMBAI_API_KEY}, stream=True)
 
-        print('tts_result: ', tts_result.raise_for_status())
         if tts_result.status_code == 200:
             with open(filepath, 'wb') as f:
                 for chunk in tts_result.iter_content(chunk_size=1024):

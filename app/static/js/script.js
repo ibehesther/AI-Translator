@@ -36,7 +36,6 @@ const getLanguageOption = (lang) => {
 	return "multi";
 };
 const handleLangSelect = (mode, id, label, code, altCode = "") => {
-	console.log("id: ", id);
 	if (mode == "input") {
 		inputLang.innerText = code;
 		inputLangLabel.innerHTML = label;
@@ -62,19 +61,20 @@ const handleRecord = async () => {
 		video: false,
 	};
 	micStream = await navigator.mediaDevices.getUserMedia(constraints);
+	const audioContext = new window.AudioContext();
+	const micSource = audioContext.createMediaStreamSource(micStream);
+	const analyser = audioContext.createAnalyser();
+  micSource.connect(analyser);
 
-	
-
-	if ("srcObject" in recordAudio) {
-		recordAudio.srcObject = micStream;
-	} else {
-		recordAudio.src = window.URL.createObjectURL(micStream);
-	}
-	recordAudio.onloadedmetadata = function (ev) {
-		recordAudio.play();
-	};
 	mediaRecorder = new MediaRecorder(micStream);
 	mediaRecorder.start();
+
+	mediaRecorder.ondataavailable = function(event) {
+		const audioBlob = event.data;
+		const audioURL = URL.createObjectURL(audioBlob);
+		recordAudio.src = audioURL;
+		recordAudio.play();
+	};
 };
 
 const handleTranscriptFormat = (paragraphs, cardEl) => {
@@ -164,7 +164,6 @@ const handlePlay = async () => {
 			}),
 		});
 		const JSONSpeechResponse = await speechResponse.json();
-		console.log("speechResponse", JSONSpeechResponse);
 		if (JSONSpeechResponse?.success) {
 			listenMessage.innerText = "";
 
