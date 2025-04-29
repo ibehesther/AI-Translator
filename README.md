@@ -1,6 +1,6 @@
 # AI-Translator
 
-[Live Demo](https://www.loom.com/share/c40030b5afcd4583a2ffdb0708c15eb8?sid=33fb0660-f485-415e-90e9-204b0e310786)
+[Live Demo](https://www.loom.com/share/ccaf1a41dc3b43c18344ea31fb9dcd90?sid=efd79653-5b3c-4c9e-80c7-9c60ba4fe0c4)
 
 ## User guide
 1. Access the application
