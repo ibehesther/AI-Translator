@@ -34,5 +34,4 @@ How to Use
 ## Limitations
 Due to financial contraints I could only use the free tier of the generative AI tools, which come with a number of limitations
 - Limited number of characters that can be translated or transcribed
-- [ElevenLabs](https://elevenlabs.io/docs/quickstart) prevents the audio playback on a different device or remote location as it ties the API key to my IP address
 
