@@ -13,22 +13,21 @@ The transcript is then generated and displayed
 6. Click the ‘Play icon’ button
 This will translate the generated transcript and display it as well as audio playback in target language
 ## Technical Requirements
-● Python 3x
-● Flask (pip install flask)
-● Generative API Key (Deepgram, Deepl and Elevenlabs)
-● Stable internet connection
+- Python 3x
+- Flask (pip install flask)
+- Generative API Key (Deepgram, Deepl and Camb AI)
+- Stable internet connection
 ## Installation and setup
-● Clone repository
-● Install dependencies >> pip install app/requirements.txt
-● Configure Generative API keys in .env file
-● Set up venv
-● Run app >> `python gunicorn app:app`
+- Clone repository
+- Install dependencies >> pip install app/requirements.txt
+- Configure Generative API keys in .env file
+- Set up venv
+- Run app >> `python gunicorn app:app`
 ## Key Features
 1. Multi language support
 2. Simple interface
 3. Dual transcript display
 4. Voice-to-Text with Generative AI
-How to Use
 
 
 ## Limitations
