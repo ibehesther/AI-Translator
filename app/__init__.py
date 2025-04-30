@@ -77,62 +77,6 @@ def transcribe_audio():
         })
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    # try:
-    #     language = request.form.get('language')
-    #     audio_file = request.files['audio']
-
-    #     filename = os.path.join(app.config['UPLOAD_FOLDER'], audio_file.filename)
-    #     audio_file.save(filename)
-
-    #     with open(filename, "rb") as file:
-    #         buffer_data = file.read()
-       
-    #     print(audio_file.filename)
-    #     files = {
-    #         'file': (audio_file.filename, buffer_data,'audio/mpeg'),
-    #     }
-    #     data = {
-    #         'language': language 
-    #     }
-    #     boundary = "-----011000010111000001101001"  
-    #     crlf = b"\r\n"
-
-    #     payload = [
-    #         f"--{boundary}",
-    #         'Content-Disposition: form-data; name="language"',
-    #         '',
-    #         str(language),
-    #         f"--{boundary}",
-    #         f'Content-Disposition: form-data; name="file"; filename="{audio_file.filename}"',
-    #         'Content-Type: application/octet-stream',
-    #         '',
-    #         buffer_data,
-    #         f"--{boundary}--",
-    #         ''
-    #     ]
-    #     # payload= f"-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"language\"\r\n\r\n{int(language)}\r\n-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file\"\r\n\r\n{audio_file.filename}\r\n-----011000010111000001101001--\r\n\r\n"
-    #     payload_bytes = b'\r\n'.join([
-    #             part.encode('utf-8') if isinstance(part, str) else part 
-    #             for part in payload
-    #         ])       
-    #     headers = {
-    #         "x-api-key": CAMBAI_API_KEY,
-    #         "Content-Type": f"multipart/form-data; boundary={boundary}"
-    #     }
-    #     transcript_response = requests.post('https://client.camb.ai/apis/transcribe', data=payload_bytes, headers=headers)
-    #     print('transcript_response: ', transcript_response.json())
-    #     return jsonify({
-    #         'message': 'Audio transcribed successfully',
-    #         'filename': audio_file.filename,
-    #         'content': {
-    #             # 'transcript': response_json.alternatives[0].transcript,
-    #             # 'paragraphs': response_json.alternatives[0].paragraphs.paragraphs,
-    #             # 'language': response_json.detected_language
-    #         },
-    #     })
-    # except Exception as e:
-    #     return jsonify({"error": str(e)}), 500 
-
 
 
 @app.route('/api/translate', methods=['POST'])
