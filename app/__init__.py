@@ -48,11 +48,11 @@ def transcribe_audio():
         return jsonify({"error": "Empty filename"}), 400
 
     try:
-        filename = os.path.join(app.config['UPLOAD_FOLDER'], audio_file.filename)
-        audio_file.save(filename)
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], audio_file.filename)
+        audio_file.save(filepath)
 
         deepgram = DeepgramClient(api_key=DEEPGRAM_API_KEY)
-        with open(filename, "rb") as file:
+        with open(filepath, "rb") as file:
             buffer_data = file.read()
         payload: FileSource = {
             "buffer": buffer_data,
@@ -64,6 +64,10 @@ def transcribe_audio():
             language=audio_lang
         )
         response = deepgram.listen.rest.v("1").transcribe_file(payload, options)
+        
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    else:
         response_json = response.results.channels[0]
 
         return jsonify({
@@ -75,19 +79,20 @@ def transcribe_audio():
                 'language': response_json.detected_language
             },
         })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
 
 
 @app.route('/api/translate', methods=['POST'])
 def translate_text():
     try:
         data = request.get_json()
-        text = data.get('text')
-        lang = data.get('lang')
 
         if not data:
             return jsonify({'error': 'Invalid payload'}), 400
+        
+        text = data.get('text')
+        lang = data.get('lang')
+        
         response = requests.post(
             "https://api-free.deepl.com/v2/translate",
             data={
@@ -96,6 +101,9 @@ def translate_text():
                 "auth_key": DEEPL_API_KEY
             }
         )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    else:
         if 'message' in response.json():
             return jsonify({
                 "error": True,
@@ -104,8 +112,6 @@ def translate_text():
         
         translated_text = response.json()["translations"][0]["text"]
         return jsonify({'text': translated_text})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/speech', methods=['POST'])
@@ -130,7 +136,11 @@ def read_text():
 
 @app.route('/api/synthesize', methods=['POST'])
 def synthesize_speech():
-    data = request.json
+    data = request.get_json()
+
+    if not data:
+        return jsonify({'error': 'Invalid payload'}), 400
+    
     text = data.get('text')
     language = data.get('language')
     voice_id = data.get('voice_id')
@@ -156,7 +166,6 @@ def synthesize_speech():
         
         ttsResponse = requests.post('https://client.camb.ai/apis/tts', json=payload, headers=headers)
         task_id = ttsResponse.json().get('task_id')
-
 
         max_attempts = 10
         wait_time = 1 
