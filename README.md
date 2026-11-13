@@ -19,7 +19,7 @@ This will translate the generated transcript and display it as well as audio pla
 - Stable internet connection
 ## Installation and setup
 - Clone repository
-- Install dependencies >> pip install app/requirements.txt
+- Install dependencies >> python -m pip install -r app/requirements.txt
 - Configure Generative API keys in .env file
 - Set up venv
 - Run app >> `python gunicorn app:app`

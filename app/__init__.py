@@ -96,9 +96,11 @@ def translate_text():
         response = requests.post(
             "https://api-free.deepl.com/v2/translate",
             data={
-                "text": text,
-                "target_lang": lang,
-                "auth_key": DEEPL_API_KEY
+                "text": [text],
+                "target_lang": lang
+            },
+            headers={
+                "Authorization": f"DeepL-Auth-Key {DEEPL_API_KEY}",
             }
         )
     except Exception as e:
@@ -165,7 +167,19 @@ def synthesize_speech():
         }
         
         ttsResponse = requests.post('https://client.camb.ai/apis/tts', json=payload, headers=headers)
+
+        print(ttsResponse.status_code, ttsResponse.text)  # temporary debug
+
+        if not ttsResponse.ok:
+            return jsonify({
+                'error': 'TTS request failed',
+                'details': ttsResponse.text
+            }), ttsResponse.status_code
+
+
         task_id = ttsResponse.json().get('task_id')
+        if not task_id:
+            return jsonify({'error': 'No task_id returned', 'details': ttsResponse.text}), 502
 
         max_attempts = 10
         wait_time = 1 
@@ -224,3 +238,4 @@ def serve_audio(filename):
 
 if __name__ == '__main__':
     app.run(debug=True)
+    

@@ -160,7 +160,7 @@ const handlePlay = async () => {
 			body: JSON.stringify({
 				text: translatedText,
 				language: speechTargetId,
-				voice_id: 20298,
+				voice_id: 147320,
 			}),
 		});
 		const JSONSpeechResponse = await speechResponse.json();
